@@ -4,12 +4,13 @@
 #include <cstddef>
 
 namespace ctl {
+
 template <typename T>
 class Vector {
 private:
-	T *m_data;
-	size_t m_Size;
-	size_t m_Capacity;
+	T *data;
+	size_t size;
+	size_t capacity;
 
 public:
 	Vector();
@@ -21,11 +22,12 @@ public:
 	Vector &operator=(Vector &&other);
 
 	void Resize(size_t size);
-	size_t Size() const { return m_Size; }
+	size_t Size() const { return size; }
 
 	void Reserve(size_t size);
-	size_t Capacity() const { return m_Capacity; }
+	size_t Capacity() const { return capacity; }
 
 	// TODO: Add iterators
 };
+
 } // namespace ctl
