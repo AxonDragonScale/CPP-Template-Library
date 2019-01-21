@@ -1,0 +1,11 @@
+#!/bin/python3
+
+Import('env')
+
+env_container = env.Clone()
+
+env_container.src = []
+
+env_container.add_sources(env_container.src, "*.cpp")
+
+env_container.Library('conainers', env_container.src)
