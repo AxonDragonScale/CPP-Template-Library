@@ -9,6 +9,7 @@ template <typename T>
 class Vector {
 private:
 	T *data;
+	uint8_t *mem;
 	size_t size;
 	size_t capacity;
 
@@ -21,11 +22,20 @@ public:
 	Vector(Vector &&other);
 	Vector &operator=(Vector &&other);
 
-	void Resize(size_t size);
+	~Vector();
+
+	void Reserve(size_t newCapacity);
+	size_t Capacity() const { return capacity; }
+
+	void Resize(size_t newSize);
 	size_t Size() const { return size; }
 
-	void Reserve(size_t size);
-	size_t Capacity() const { return capacity; }
+	T &operator[](size_t index);
+	T &at(size_t index);
+	T &get(size_t index);
+
+	T &Front();
+	T &Back();
 
 	// TODO: Add iterators
 };
