@@ -30,14 +30,38 @@ public:
 	void Resize(size_t newSize);
 	size_t Size() const { return size; }
 
-	T &operator[](size_t index);
-	T &at(size_t index);
-	T &get(size_t index);
+	bool Empty() const;
 
+	T &operator[](size_t index);
+	T &At(size_t index);
+	T &Get(size_t index);
 	T &Front();
 	T &Back();
 
-	// TODO: Add iterators
+	void PushBack(const T &val);
+	T PopBack();
+
+public:
+	class Iterator {
+	private:
+		T *ptr;
+
+	public:
+		Iterator(T *ptr);
+
+		Iterator operator++();
+		Iterator operator--();
+
+		T &operator*();
+		const T &operator*() const;
+		T *operator->();
+
+		bool operator==(const Iterator &rhs);
+		bool operator!=(const Iterator &rhs);
+	};
+
+	Vector<T>::Iterator begin();
+	Vector<T>::Iterator end();
 };
 
 } // namespace ctl

@@ -112,7 +112,10 @@ template <typename T>
 void Vector<T>::Reserve(size_t newCapacity) {
 	if (newCapacity > capacity) {
 		uint8_t newMem = new uint8_t[newCapacity * sizeof(T)];
-		memcpy(newMem, mem, size * sizeof(T));
+
+		if (size != 0) {
+			memcpy(newMem, mem, size * sizeof(T));
+		}
 
 		if (mem != nullptr) delete mem;
 		mem = newMem;
@@ -142,13 +145,18 @@ void Vector<T>::Resize(size_t newSize) {
 }
 
 template <typename T>
+bool Vector<T>::Empty() const {
+	return size == 0;
+}
+
+template <typename T>
 T &Vector<T>::operator[](size_t index) {
 	return data[index];
 	// TODO: policy based implementation
 }
 
 template <typename T>
-T &Vector<T>::at(size_t index) {
+T &Vector<T>::At(size_t index) {
 	if (index < size) {
 		return data[index];
 	} else {
@@ -157,7 +165,7 @@ T &Vector<T>::at(size_t index) {
 }
 
 template <typename T>
-T &Vector<T>::get(size_t index) {
+T &Vector<T>::Get(size_t index) {
 	return data[index];
 }
 
@@ -169,6 +177,78 @@ T &Vector<T>::Front() {
 template <typename T>
 T &Vector<T>::Back() {
 	return data[size - 1];
+}
+
+template <typename T>
+void Vector<T>::PushBack(const T &val) {
+	if (size == capacity) {
+		if (capacity == 0) {
+			this->Reserve(10);
+		} else {
+			this->Reserve(2 * capacity);
+		}
+	}
+
+	data[size++] = val;
+}
+
+template <typename T>
+T Vector<T>::PopBack() {
+	size--;
+	return data[size - 1];
+}
+
+// begin and end iterator for using range based for loop
+template <typename T>
+Vector<T>::Iterator Vector<T>::begin() {
+	return Vector<T>::Iterator(data);
+}
+
+template <typename T>
+Vector<T>::Iterator Vector<T>::end() {
+	return Vector<T>::Iterator(data + n);
+}
+
+// Inner Iterator class code
+template <typename T>
+Vector<T>::Iterator::Iterator(T *ptr) :
+		ptr(ptr) {}
+
+template <typename T>
+Vector<T>::Iterator Vector<T>::Iterator::operator++() {
+	++ptr;
+	return *this;
+}
+
+template <typename T>
+Vector<T>::Iterator Vector<T>::Iterator::operator--() {
+	--ptr;
+	return *this;
+}
+
+template <typename T>
+T &Vector<T>::Iterator::operator*() {
+	return *ptr;
+}
+
+template <typename T>
+const T &Vector<T>::Iterator::operator*() const {
+	return *ptr;
+}
+
+template <typename T>
+T *Vector<T>::Iterator::operator->() {
+	return ptr;
+}
+
+template <typename T>
+bool Vector<T>::Iterator::operator==(const Iterator &rhs) {
+	return ptr == rhs.ptr;
+}
+
+template <typename T>
+bool Vector<T>::Iterator::operator!=(const Iterator &rhs) {
+	return ptr != rhs.ptr;
 }
 
 } // namespace ctl

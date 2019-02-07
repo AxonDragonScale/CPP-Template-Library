@@ -11,6 +11,7 @@ env = Environment()
 env.__class__.add_sources = methods.add_sources
 
 env.Append(CXXFLAGS=['-std=c++14'])
+env.Append(CPPPATH=['#src'])
 
 Export("env")
 
